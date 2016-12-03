@@ -64,6 +64,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #endif
         }
 
+		[Serializable]
+		public class InputSettings{
+			public string Jump = "Jump";
+			public string HorizontalAxis = "Horizontal";
+			public string VerticalAxis = "Vertical";
+		}
 
         [Serializable]
         public class AdvancedSettings
@@ -78,6 +84,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 
         public Camera cam;
+		public InputSettings inputSettings = new InputSettings();
         public MovementSettings movementSettings = new MovementSettings();
         public MouseLook mouseLook = new MouseLook();
         public AdvancedSettings advancedSettings = new AdvancedSettings();
@@ -130,7 +137,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             RotateView();
 
-            if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
+			if (CrossPlatformInputManager.GetButtonDown(inputSettings.Jump) && !m_Jump)
             {
                 m_Jump = true;
             }
@@ -214,8 +221,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             
             Vector2 input = new Vector2
                 {
-                    x = CrossPlatformInputManager.GetAxis("Horizontal"),
-                    y = CrossPlatformInputManager.GetAxis("Vertical")
+				x = CrossPlatformInputManager.GetAxis(inputSettings.HorizontalAxis),
+				y = CrossPlatformInputManager.GetAxis(inputSettings.VerticalAxis)
                 };
 			movementSettings.UpdateDesiredTargetSpeed(input);
             return input;
